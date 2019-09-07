@@ -1,9 +1,9 @@
 Vue.component("block-change", {
-  props: ["block"],
+  props: ["block", "color"],
   template: `<div>
               <div> Позиция: {{ block.index }}. Автор: {{ block.author }}</div>
               <div><button class="btn">Вверх блок</button></div>
-              <div>{{block.current}}</div>
+              <div :style="{background:color}">{{block.current}}</div>
               <div><button class="btn">Вниз блок</button></div>
               <button class="btn btn-success">Согласен</button>
               <button class="btn btn-danger">Не согласен</button>
@@ -89,6 +89,24 @@ var app = new Vue({
         otherHash.push(document);
       });
       return otherHash;
+    },
+    documentColor() {
+      let hashs = [];
+      this.document.forEach(element => {
+        hashs.push(sha256(element.current));
+      });
+      return hashs;
+    },
+    otherDocumentsColor() {
+      let otherColors = [];
+      this.otherDocumentsHash.forEach(otherHashs => {
+        if (otherHashs[this.paragraph] === this.documentHash[this.paragraph]) {
+          otherColors.push("green");
+        } else {
+          otherColors.push("red");
+        }
+      });
+      return otherColors;
     }
   }
 });

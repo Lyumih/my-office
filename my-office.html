@@ -70,9 +70,12 @@
         <div class="col-4 bordered">
           <h2>Изменения</h2>
           <div class="row"></div>
-          <div v-for="block in otherDocuments">
+          <div v-for="(block, index) in otherDocuments">
             <div class="col-12 bordered">
-              <block-change :block="block[paragraph]"></block-change>
+              <block-change
+                :block="block[paragraph]"
+                :color="otherDocumentsColor[index]"
+              ></block-change>
             </div>
           </div>
         </div>
