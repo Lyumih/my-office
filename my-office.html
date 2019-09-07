@@ -57,13 +57,22 @@
             <button class="btn" @click="paragraph++">🢫</button>
           </div>
           <div class="bordered">
-            <template v-for="block in document">
-              <p
-                :style="{background:block.color}"
-                @mouseover="paragraph=block.index"
-              >
-                {{ block.origin }}
-              </p>
+            <template v-for="(block,index) in document">
+              <table>
+                <tr>
+                  <td>
+                    <b>{{ index }}</b>
+                  </td>
+                  <td>
+                    <div
+                      :style="{background:documentColor[index]}"
+                      @mouseover="paragraph=block.index"
+                    >
+                      {{ block.origin }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </template>
           </div>
         </div>

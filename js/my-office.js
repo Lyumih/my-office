@@ -91,11 +91,19 @@ var app = new Vue({
       return otherHash;
     },
     documentColor() {
-      let hashs = [];
-      this.document.forEach(element => {
-        hashs.push(sha256(element.current));
-      });
-      return hashs;
+      let colors = [];
+      for (let i = 0; i < this.documentHash.length; i++) {
+        let hash = this.documentHash[i];
+        let color = "green";
+        this.otherDocumentsHash.forEach(otherDocument => {
+          console.log(otherDocument[i], hash);
+          if (otherDocument[i] !== hash) {
+            color = "red";
+          }
+        });
+        colors.push(color);
+      }
+      return colors;
     },
     otherDocumentsColor() {
       let otherColors = [];
