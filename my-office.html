@@ -25,9 +25,37 @@
   <body>
     <div class="container" id="app">
       <h1>Мой офис. Сравнение документов</h1>
+
+      <div class="row">
+        <div class="col-12">
+          <template v-for="(text, index) in texts">
+            <a
+              class="btn btn-primary collapsed"
+              data-toggle="collapse"
+              :href="'#collapseExample'+index"
+              aria-expanded="false"
+              :aria-controls="'collapseExample'+index"
+            >
+              Документ {{ index }}
+            </a>
+          </template>
+          <template v-for="(text, index) in texts">
+            <div class="collapse" :id="'collapseExample'+index">
+              <div class="card card-body">
+                <textarea v-model="texts[index]" rows="10"></textarea>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
       <div class="row">
         <div class="col-8 bordered">
           <h2>Основной документ</h2>
+          <div class="text-right">
+            <span>Абзац: {{ paragraph }}</span>
+            <button class="btn" @click="paragraph--">🢪</button>
+            <button class="btn" @click="paragraph++">🢫</button>
+          </div>
           <div class="bordered">
             <template v-for="block in document">
               <p
@@ -40,31 +68,6 @@
           </div>
         </div>
         <div class="col-4 bordered">
-          <h2>Глубина сравнения</h2>
-          <div>
-            <label for="mode1"
-              ><input
-                id="mode1"
-                type="radio"
-                value="Абзац"
-                v-model="modeSelected"
-              />Абзац</label
-            ><label for="mode2"
-              ><input
-                id="mode2"
-                type="radio"
-                value="Предложение"
-                v-model="modeSelected"
-              />Предложение</label
-            ><label for="mode3"
-              ><input
-                id="mode3"
-                type="radio"
-                value="Слово"
-                v-model="modeSelected"
-              />Слово</label
-            >
-          </div>
           <h2>Изменеия</h2>
           <div class="row"></div>
           <div v-for="block in otherDocuments">
