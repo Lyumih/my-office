@@ -7,7 +7,7 @@ Vue.component("block-change", {
               <div><button class="btn">Вниз блок</button></div>
               <button class="btn btn-success">Согласен</button>
               <button class="btn btn-danger">Не согласен</button>
-              <button class="btn btn-primary">Внести справку</button>
+              <button class="btn btn-primary">Внести правку</button>
               <button class="btn btn btn-outline-warning">Оставить оригинал</button>
               </div>
               `
