@@ -30,7 +30,12 @@
           <h2>Основной документ</h2>
           <div class="bordered">
             <template v-for="block in document">
-              <p :style="{background:block.color}">{{ block.origin }}</p>
+              <p
+                :style="{background:block.color}"
+                @mouseover="paragraph=block.index"
+              >
+                {{ block.origin }}
+              </p>
             </template>
           </div>
         </div>
@@ -44,14 +49,20 @@
                 value="Абзац"
                 v-model="modeSelected"
               />Абзац</label
-            >
-            <label for="mode2"
+            ><label for="mode2"
               ><input
                 id="mode2"
                 type="radio"
                 value="Предложение"
                 v-model="modeSelected"
               />Предложение</label
+            ><label for="mode3"
+              ><input
+                id="mode3"
+                type="radio"
+                value="Слово"
+                v-model="modeSelected"
+              />Слово</label
             >
           </div>
           <h2>Изменеия</h2>
