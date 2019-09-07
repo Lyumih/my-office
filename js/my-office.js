@@ -59,130 +59,36 @@ var app = new Vue({
   data: {
     modeSelected: "Абзац",
     paragraph: 0,
-    texts: [mockDocument, mockOtherDocument1, mockOtherDocument2],
-
-    otherDocuments: [
-      [
-        createBlock(
-          0,
-          "white",
-          "misha",
-          "Мой 1 абзац. С точной и без",
-          "Мой 1 абзац. С точной и без"
-        ),
-        createBlock(
-          1,
-          "green",
-          "misha",
-          "Мой 2 изменённый абзац",
-          "Мой 2 изменённый абзац"
-        ),
-        createBlock(
-          2,
-          "gray",
-          "misha",
-          "Мой 3 удалённый абзац",
-          "Мой 3 удалённый абзац"
-        ),
-        createBlock(
-          3,
-          "blue",
-          "misha",
-          "Мой 4 добавленный абзац",
-          "Мой 4 добавленный абзац"
-        ),
-        createBlock(
-          4,
-          "yellow",
-          "misha",
-          "Мой 5 перемещенный абзац",
-          "Мой 5 перемещенный абзац"
-        )
-      ],
-      [
-        createBlock(
-          0,
-          "white",
-          "misha",
-          "Мой 1 абзац. С точной и без",
-          "Мой 1 абзац. С точной и без"
-        ),
-        createBlock(
-          1,
-          "green",
-          "misha",
-          "Мой 2 изменённый абзац",
-          "Мой 2 изменённый абзац"
-        ),
-        createBlock(
-          2,
-          "gray",
-          "misha",
-          "Мой 3 удалённый абзац",
-          "Мой 3 удалённый абзац"
-        ),
-        createBlock(
-          3,
-          "blue",
-          "misha",
-          "Мой 4 добавленный абзац",
-          "Мой 4 добавленный абзац"
-        ),
-        createBlock(
-          4,
-          "yellow",
-          "misha",
-          "Мой 5 перемещенный абзац",
-          "Мой 5 перемещенный абзац"
-        )
-      ],
-      [
-        createBlock(
-          0,
-          "white",
-          "misha",
-          "Мой 1 абзац. С точной и без",
-          "Мой 1 абзац. С точной и без"
-        ),
-        createBlock(
-          1,
-          "green",
-          "misha",
-          "Мой 2 изменённый абзац",
-          "Мой 2 изменённый абзац"
-        ),
-        createBlock(
-          2,
-          "gray",
-          "misha",
-          "Мой 3 удалённый абзац",
-          "Мой 3 удалённый абзац"
-        ),
-        createBlock(
-          3,
-          "blue",
-          "misha",
-          "Мой 4 добавленный абзац",
-          "Мой 4 добавленный абзац"
-        ),
-        createBlock(
-          4,
-          "yellow",
-          "misha",
-          "Мой 5 перемещенный абзац",
-          "Мой 5 перемещенный абзац"
-        )
-      ]
-    ]
+    texts: [mockDocument, mockOtherDocument1, mockOtherDocument2]
   },
   computed: {
     document() {
       return splitText(this.texts[0]);
     },
     otherDocuments() {
-      array.forEach(element => {
-        
+      let others = [];
+      for (let i = 1; i < this.texts.length; i++) {
+        others.push(splitText(this.texts[i]));
+      }
+      return others;
+    },
+    documentHash() {
+      hashs = [];
+      this.document.forEach(element => {
+        hashs.push(sha256(element.current));
       });
+      return hashs;
+    },
+    otherDocumentsHash() {
+      let otherHash = [];
+      this.otherDocuments.forEach(element => {
+        let document = [];
+        element.forEach(subelement => {
+          document.push(sha256(subelement.current));
+        });
+        otherHash.push(document);
+      });
+      return otherHash;
     }
   }
 });
