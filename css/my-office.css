@@ -1,3 +1,11 @@
 .bordered {
   border: 1px solid black;
 }
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.border-radius-10px {
+  border-radius: 10px;
+}

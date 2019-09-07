@@ -1,15 +1,16 @@
 Vue.component("block-change", {
   props: ["block", "color"],
-  template: `<div>
-              <div> Позиция: {{ block.index }}. Автор: {{ block.author }}</div>
-              <div><button class="btn">Вверх блок</button></div>
-              <div :style="{background:color}">{{block.current}}</div>
-              <div><button class="btn">Вниз блок</button></div>
-              <button class="btn btn-success">Согласен</button>
-              <button class="btn btn-danger">Не согласен</button>
-              <button class="btn btn-primary">Внести правку</button>
-              <button class="btn btn btn-outline-warning">Оставить оригинал</button>
+  template: `<div class="card shadow-sm mb-3">
+              <div class="card-body text-center" :style="color==='lightcoral'? 'background-color: rgba(255, 0, 0, 0.07);': ''">
+                <div><button class="btn btn-sm btn-block">...</button></div>
+                <div :style="{background:color}">{{block.current}}</div>
+                <div><button class="btn btn-sm btn-block">...</button></div>
+                <a class="btn btn-sm btn-outline-success" title="Согласен"><i class="fa fa-check" aria-hidden="true"></i></a>
+                <a class="btn btn-sm btn-outline-danger" title="Не согласен"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <a class="btn btn-sm btn-outline-primary" title="Внести правку"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a class="btn btn-sm btn btn-outline-warning" title="Оставить оригинал"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
               </div>
+            </div>
               `
 });
 
@@ -50,7 +51,7 @@ var mockOtherDocument2 = `Мой 1 абзац. С точной и без
 
 Мой 3 удалённый абзац
 
-Мой 4 добавленный абзац
+Мой 4 добавленны абзац
 
 Мой 5 перемещенный абзац`;
 
@@ -94,11 +95,10 @@ var app = new Vue({
       let colors = [];
       for (let i = 0; i < this.documentHash.length; i++) {
         let hash = this.documentHash[i];
-        let color = "green";
+        let color = "lightgreen";
         this.otherDocumentsHash.forEach(otherDocument => {
-          console.log(otherDocument[i], hash);
           if (otherDocument[i] !== hash) {
-            color = "red";
+            color = "lightcoral";
           }
         });
         colors.push(color);
@@ -109,9 +109,9 @@ var app = new Vue({
       let otherColors = [];
       this.otherDocumentsHash.forEach(otherHashs => {
         if (otherHashs[this.paragraph] === this.documentHash[this.paragraph]) {
-          otherColors.push("green");
+          otherColors.push("lightgreen");
         } else {
-          otherColors.push("red");
+          otherColors.push("lightcoral");
         }
       });
       return otherColors;
