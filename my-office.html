@@ -50,19 +50,24 @@
     </nav>
     <div class="container-fluid" id="app">
       <div class="row">
-        <h2 class="col-7 text-center">Основной документ</h2>
-        <div class="col-5 text-center">
-          <template v-for="(text, index) in texts">
-            <a
-              class="btn btn-outline-primary mr-3 collapsed"
-              data-toggle="collapse"
-              :href="'#collapseExample'+index"
-              aria-expanded="false"
-              :aria-controls="'collapseExample'+index"
-            >
-              Документ {{ index }}
-            </a>
-          </template>
+        <div class="col-12 ">
+          <div class="d-flex justify-content-between">
+            <span class=""><bold>Основной документ</bold></span>
+            <div>
+              <template v-for="(text, index) in texts">
+                <a
+                  class="btn btn-outline-primary mr-3 collapsed"
+                  data-toggle="collapse"
+                  :href="'#collapseExample'+index"
+                  aria-expanded="false"
+                  :aria-controls="'collapseExample'+index"
+                >
+                  Документ № {{ index }}
+                </a>
+              </template>
+            </div>
+            <span class=""><bold>Изменения</bold></span>
+          </div>
         </div>
         <div class="col-12">
           <template v-for="(text, index) in texts">
