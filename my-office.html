@@ -53,15 +53,15 @@
         <div class="col-6 text-center">
           <div>
             <template v-for="(text, index) in texts">
-
               <a
-                class="btn btn-sm btn-outline-info mr-4 collapsed"
+                class="btn btn-sm mr-4 collapsed"
+                :class="index===0 ? ' btn-info' : ' btn-outline-info'"
                 data-toggle="collapse"
                 :href="'#collapseExample'+index"
                 aria-expanded="false"
                 :aria-controls="'collapseExample'+index"
               >
-                Документ № {{ index }}
+                {{ index === 0 ? "Основной документ" : "Документ № " + index }}
               </a>
             </template>
           </div>
@@ -81,7 +81,10 @@
           </div>
         </div>
         <div class="col-2">
-          <button class="btn btn-sm btn-outline-secondary btn-block">
+          <button
+            class="btn btn-sm btn-block"
+            :class="progress===100?'btn-success' : 'btn-outline-secondary '"
+          >
             Скачать
           </button>
         </div>

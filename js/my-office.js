@@ -11,7 +11,7 @@ Vue.component("block-change", {
                   </div>
                   <div class=" flex-grow-1 ml-3" :style="{background:color}">
                       <!-- <div><button class="btn btn-sm btn-block">...</button></div> -->
-                      <textarea class="w-100" style="min-height: 100%"  :style="{background:color}" v-model="text"></textarea>
+                      <textarea class="w-100 small p-2" style="min-height: 100%"  :style="{background:color}" v-model="text"></textarea>
                       <!-- <div><button class="btn btn-sm btn-block">...</button></div> -->
                   </div>
                 </div>
@@ -139,7 +139,6 @@ var app = new Vue({
         .filter(element => element.color !== this.colors.good);
     },
     progress() {
-      console.log(this.mistakes.length);
       if (this.progressCap == 0) {
         return 100;
       }
