@@ -68,7 +68,10 @@
           <template v-for="(text, index) in texts">
             <div class="collapse" :id="'collapseExample'+index">
               <div class="card card-body">
-                <textarea v-model="texts[index]" rows="10"></textarea>
+                <textarea
+                  v-model="texts[index].join('\n')"
+                  rows="10"
+                ></textarea>
               </div>
             </div>
           </template>
@@ -117,7 +120,9 @@
               <tbody>
                 <template v-for="(block,index) in texts[0]">
                   <tr @mouseover="paragraph=index">
-                    <td>
+                    <td
+                      :class="[changedParagraphs.includes(index) ? 'bg-warning' : '']"
+                    >
                       <b>{{ index + 1 }}</b>
                     </td>
                     <td>

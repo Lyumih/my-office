@@ -39,7 +39,7 @@ var mockOtherDocument1 = `Измен. Мой 1 абзац. С точной и б
 
 Мой 2 изменённый абзац
 
-Мой 3 удалённый абзац
+Мой 3 удалённый абзац3
 
 Мой 4 добавленный абзац
 
@@ -66,7 +66,8 @@ var app = new Vue({
     paragraph: 0,
     mistake: 0,
     texts: [],
-    startedText: []
+    startedText: [],
+    changedParagraphs: []
   },
   created() {
     this.texts = [
@@ -125,18 +126,21 @@ var app = new Vue({
         this.texts[i][paragraph] = newText;
       }
       this.texts.push(this.texts.pop());
+      this.toggleChangedParagraph(paragraph);
     },
     cancelChanges(paragraph) {
       for (let i = 1; i < this.texts.length; i++) {
         this.texts[i][paragraph] = this.texts[0][paragraph];
       }
       this.texts.push(this.texts.pop());
+      this.toggleChangedParagraph(paragraph);
     },
     originalChanges(paragraph) {
       for (let i = 0; i < this.texts.length; i++) {
         this.texts[i][paragraph] = this.startedText[i][paragraph];
       }
       this.texts.push(this.texts.pop());
+      this.toggleChangedParagraph(paragraph);
     },
     editChanges(paragraph, newText) {
       this.doneChanges(paragraph, newText);
@@ -164,6 +168,22 @@ var app = new Vue({
         this.mistake++;
       }
       this.paragraph = this.mistakes[this.mistake].index;
+    },
+    toggleChangedParagraph(paragraph) {
+      if (this.startedText[0][paragraph] === this.texts[0][paragraph]) {
+        this.changedParagraphs = this.changedParagraphs.filter(
+          item => item !== paragraph
+        );
+        console.log("white");
+      } else {
+        console.log("yellow");
+        this.changedParagraphs.push(paragraph);
+      }
+      console.log(
+        this.startedText[0][paragraph] === this.texts[0][paragraph],
+        paragraph,
+        this.changedParagraphs
+      );
     }
   }
 });
