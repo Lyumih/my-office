@@ -80,9 +80,7 @@
         <div class="col-8 mt-3">
           <div class="d-flex justify-content-between">
             <div>
-              <span
-                >Абзац: {{ paragraph + 1 }} из {{ documentHash.length }}</span
-              >
+              <span>Абзац: {{ paragraph + 1 }} из {{ texts[0].length }}</span>
               <button
                 class="btn"
                 :disabled="paragraph < 1"
@@ -92,7 +90,7 @@
               </button>
               <button
                 class="btn"
-                :disabled="paragraph >= documentHash.length -1"
+                :disabled="paragraph >= texts[0].length -1"
                 @click="paragraph++"
               >
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -109,7 +107,7 @@
               </button>
               <button
                 class="btn"
-                :disabled="paragraph >= documentHash.length -1"
+                :disabled="paragraph >= texts[0].length -1"
                 @click="paragraph++"
               >
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -125,17 +123,17 @@
                 </tr>
               </thead>
               <tbody>
-                <template v-for="(block,index) in document">
-                  <tr @mouseover="paragraph=block.index">
+                <template v-for="(block,index) in texts[0]">
+                  <tr @mouseover="paragraph=index">
                     <td>
                       <b>{{ index + 1 }}</b>
                     </td>
                     <td>
                       <div
-                        :title="documentColor[index] === 'lightcoral' ? 'Рекомендуем выбрать изменения' : ''"
-                        :style="{background:documentColor[index]}"
+                        :title="documentsColor[0][index] === 'lightcoral' ? 'Рекомендуем выбрать изменения' : ''"
+                        :style="{background:documentsColor[0][index]}"
                       >
-                        {{ block.origin }}
+                        {{ block }}
                       </div>
                     </td>
                   </tr>
@@ -146,16 +144,23 @@
         </div>
         <div class="col-4">
           <h2 class="text-center">Изменения</h2>
-          <div v-for="(block, index) in otherDocuments">
+          <div v-for="(text, index) in texts">
             <!-- <div class="col-12"> -->
-            <block-change
-              :block="block[paragraph]"
-              :color="otherDocumentsColor[index]"
-            ></block-change>
+            <template v-if="index > 0">
+              <block-change
+                :paragraph="paragraph"
+                :text="text[paragraph]"
+                :color="documentsColor[index][paragraph]"
+                @done-changes="doneChanges"
+              >
+              </block-change>
+            </template>
             <!-- </div> -->
           </div>
         </div>
       </div>
+
+      <!-- MENU -->
       <menu class="menu">
         <li class="menu-item">
           <button type="button" class="menu-btn">
