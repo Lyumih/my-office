@@ -3,12 +3,12 @@ Vue.component("block-change", {
   template: `<div class="card shadow-sm mb-3">
               <div class="card-body text-center" :style="color==='lightcoral'? 'background-color: rgba(255, 0, 0, 0.07);': ''">
                 <div><button class="btn btn-sm btn-block">...</button></div>
-                <div :style="{background:color}">{{text}}</div>
+                <textarea class="w-100" :style="{background:color}" v-model="text"></textarea>
                 <div><button class="btn btn-sm btn-block">...</button></div>
                 <a class="btn btn-sm btn-outline-success" title="Согласен" @click="$emit('done-changes', paragraph, text)"><i class="fa fa-check" aria-hidden="true"></i></a>
-                <a class="btn btn-sm btn-outline-danger" title="Не согласен"><i class="fa fa-times" aria-hidden="true"></i></a>
-                <a class="btn btn-sm btn-outline-primary" title="Внести правку"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                <a class="btn btn-sm btn btn-outline-warning" title="Оставить оригинал"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
+                <a class="btn btn-sm btn-outline-danger" title="Не согласен" @click="$emit('cancel-changes', paragraph)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <!--<a class="btn btn-sm btn-outline-primary" title="Внести правку" @click="$emit('edit-changes', paragraph, text)"><i class="fa fa-pencil" aria-hidden="true"></i></a>-->
+                <a class="btn btn-sm btn btn-outline-warning" title="Оставить оригинал" @click="$emit('original-changes', paragraph)"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
               </div>
             </div>
               `
@@ -61,7 +61,8 @@ var app = new Vue({
     modeSelected: "Абзац",
     paragraph: 0,
     change: 0,
-    texts: []
+    texts: [],
+    startedText: []
   },
   created() {
     this.texts = [
@@ -69,6 +70,7 @@ var app = new Vue({
       mockOtherDocument1.split("\n"),
       mockOtherDocument2.split("\n")
     ];
+    this.startedText = JSON.parse(JSON.stringify(this.texts));
   },
   computed: {
     documentsHash() {
@@ -112,6 +114,21 @@ var app = new Vue({
         this.texts[i][paragraph] = newText;
       }
       this.texts.push(this.texts.pop());
+    },
+    cancelChanges(paragraph) {
+      for (let i = 1; i < this.texts.length; i++) {
+        this.texts[i][paragraph] = this.texts[0][paragraph];
+      }
+      this.texts.push(this.texts.pop());
+    },
+    originalChanges(paragraph) {
+      for (let i = 0; i < this.texts.length; i++) {
+        this.texts[i][paragraph] = this.startedText[i][paragraph];
+      }
+      this.texts.push(this.texts.pop());
+    },
+    editChanges(paragraph, newText) {
+      this.doneChanges(paragraph, newText);
     },
     hashing(text) {
       return md5(text);
