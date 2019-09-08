@@ -58,9 +58,13 @@ var mockOtherDocument2 = `Мой 1 абзац. С точной и без
 var app = new Vue({
   el: "#app",
   data: {
+    colors: {
+      bad: "lightcoral",
+      good: "lightgreen"
+    },
     modeSelected: "Абзац",
     paragraph: 0,
-    change: 0,
+    mistake: 0,
     texts: [],
     startedText: []
   },
@@ -76,7 +80,7 @@ var app = new Vue({
     documentsHash() {
       return this.texts.map(element => {
         return element.map(subelement => {
-          return this.hashing(subelement);
+          return md5(subelement);
         });
       });
     },
@@ -86,9 +90,9 @@ var app = new Vue({
       let original = this.documentsHash[0];
 
       original.forEach((item, index) => {
-        let color = "lightgreen";
+        let color = this.colors.good;
         this.documentsHash.slice(1).forEach(element => {
-          if (element[index] !== item) color = "lightcoral";
+          if (element[index] !== item) color = this.colors.bad;
         });
 
         colors[0].push(color);
@@ -98,14 +102,21 @@ var app = new Vue({
         colors[indexArray + 1] = [];
         item.forEach((hash, index) => {
           if (hash === this.documentsHash[0][index])
-            colors[indexArray + 1].push("lightgreen");
+            colors[indexArray + 1].push(this.colors.good);
           else {
-            colors[indexArray + 1].push("lightcoral");
+            colors[indexArray + 1].push(this.colors.bad);
           }
         });
       });
 
       return colors;
+    },
+    mistakes() {
+      return this.documentsColor[0]
+        .map((element, index) => {
+          return { index, color: element };
+        })
+        .filter(element => element.color !== this.colors.good);
     }
   },
   methods: {
@@ -130,8 +141,29 @@ var app = new Vue({
     editChanges(paragraph, newText) {
       this.doneChanges(paragraph, newText);
     },
-    hashing(text) {
-      return md5(text);
+    prevMistake() {
+      if (this.mistakes.length == 0) {
+        this.mistake = 0;
+        return;
+      }
+      if (this.mistake <= 0) {
+        this.mistake = this.mistakes.length - 1;
+      } else {
+        this.mistake--;
+      }
+      this.paragraph = this.mistakes[this.mistake].index;
+    },
+    nextMistake() {
+      if (this.mistakes.length == 0) {
+        this.mistake = 0;
+        return;
+      }
+      if (this.mistake >= this.mistakes.length - 1) {
+        this.mistake = 0;
+      } else {
+        this.mistake++;
+      }
+      this.paragraph = this.mistakes[this.mistake].index;
     }
   }
 });

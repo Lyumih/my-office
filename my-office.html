@@ -83,33 +83,25 @@
               <span>Абзац: {{ paragraph + 1 }} из {{ texts[0].length }}</span>
               <button
                 class="btn"
-                :disabled="paragraph < 1"
-                @click="paragraph--"
+                @click="paragraph <= 0  ? paragraph = texts[0].length - 1 : paragraph--"
               >
                 <i class="fa fa-chevron-up" aria-hidden="true"></i>
               </button>
               <button
                 class="btn"
-                :disabled="paragraph >= texts[0].length -1"
-                @click="paragraph++"
+                @click="paragraph >= texts[0].length - 1 ? paragraph = 0 : paragraph ++"
               >
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
               </button>
             </div>
             <div>
-              <span>Изменения: {{ change }} из 2 </span>
-              <button
-                class="btn"
-                :disabled="paragraph < 1"
-                @click="paragraph--"
-              >
+              <span
+                >Изменения: {{ mistake + 1 }} из {{ mistakes.length }}
+              </span>
+              <button class="btn" @click="prevMistake">
                 <i class="fa fa-chevron-up" aria-hidden="true"></i>
               </button>
-              <button
-                class="btn"
-                :disabled="paragraph >= texts[0].length -1"
-                @click="paragraph++"
-              >
+              <button class="btn" @click="nextMistake">
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
               </button>
             </div>
