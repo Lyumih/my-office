@@ -48,7 +48,7 @@
         <a class="navbar-brand" href="#">Сравнение документов</a>
       </div>
     </nav>
-    <div class="container" id="app">
+    <div class="container-fluid" id="app">
       <div class="row mb-3">
         <div class="col-12"></div>
       </div>
@@ -80,7 +80,7 @@
       <h2 class="text-center mt-3">Основной документ</h2>
 
       <div class="row">
-        <div class="col-8 mt-3">
+        <div class="col-sm-8 mt-3">
           <div class="d-flex justify-content-between">
             <div>
               <span>Абзац: {{ paragraph + 1 }} из {{ texts[0].length }}</span>
@@ -109,7 +109,7 @@
               </button>
             </div>
           </div>
-          <div class="bordered border-radius-10px p-3 shadow">
+          <div class=" border-radius-10px p-3 shadow" style="max-height: 65vh; overflow: auto;">
             <table class="table table-sm table-borderless table-striped">
               <thead>
                 <tr>
@@ -119,7 +119,7 @@
               </thead>
               <tbody>
                 <template v-for="(block,index) in texts[0]">
-                  <tr @mouseover="paragraph=index">
+                  <tr @mouseover="checkParagraph(index)">
                     <td
                       :class="[changedParagraphs.includes(index) ? 'bg-warning' : '']"
                     >
@@ -139,7 +139,7 @@
             </table>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-sm-4">
           <h2 class="text-center">Изменения</h2>
           <div v-for="(text, index) in texts">
             <!-- <div class="col-12"> -->
@@ -165,39 +165,28 @@
         <li class="menu-item">
           <button type="button" class="menu-btn">
             <i class="fa fa-folder-open"></i>
-            <span class="menu-text">Открыть</span>
+            <span
+              class="menu-text"
+              @mousedown="doneChanges(paragraph, texts[0][paragraph])"
+              >Утвердить</span
+            >
           </button>
         </li>
-        <li class="menu-item disabled">
+        <li class="menu-item" @click="originalChanges(paragraph)">
           <button type="button" class="menu-btn">
-            <span class="menu-text">Открыть в новой вкладке</span>
+            <span class="menu-text">Оставить оригинал</span>
           </button>
         </li>
+        <p> Ваша рекомендация: <p>{{ recomendation }}</p></p>
         <li class="menu-separator"></li>
         <li class="menu-item">
-          <button type="button" class="menu-btn">
-            <i class="fa fa-reply"></i>
-            <span class="menu-text">Обновить</span>
-          </button>
-        </li>
-        ...
-        <li class="menu-separator"></li>
-        <li class="menu-item">
-          <button type="button" class="menu-btn">
+          <button
+            type="button"
+            class="menu-btn"
+            onmousedown="download(app.texts[0].join('\r\n'),'document','txt')"
+          >
             <i class="fa fa-download"></i>
             <span class="menu-text">Сохранить</span>
-          </button>
-        </li>
-        <li class="menu-item">
-          <button type="button" class="menu-btn">
-            <i class="fa fa-edit"></i>
-            <span class="menu-text">Изменить</span>
-          </button>
-        </li>
-        <li class="menu-item">
-          <button type="button" class="menu-btn">
-            <i class="fa fa-trash"></i>
-            <span class="menu-text">Удалить</span>
           </button>
         </li>
       </menu>
@@ -221,8 +210,10 @@
       crossorigin="anonymous"
     ></script>
 
+    <script src="js/find.js"></script>
     <script src="js/coder-hashing.js"></script>
     <script src="js/my-office.js"></script>
     <script src="js/menu.js"></script>
+    <script src="js/download-file.js"></script>
   </body>
 </html>
