@@ -84,6 +84,7 @@
           <button
             class="btn btn-sm btn-block"
             :class="progress===100?'btn-success' : 'btn-outline-secondary '"
+            onmousedown="if(app.progress === 100) {download(app.texts[0].join('\r\n'),'result document','txt')}"
           >
             Скачать
           </button>
