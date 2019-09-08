@@ -60,6 +60,7 @@ var app = new Vue({
   data: {
     modeSelected: "Абзац",
     paragraph: 0,
+    change: 0,
     texts: [mockDocument, mockOtherDocument1, mockOtherDocument2]
   },
   computed: {

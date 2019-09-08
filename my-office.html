@@ -53,10 +53,10 @@
         <div class="col-12"></div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 text-center">
           <template v-for="(text, index) in texts">
             <a
-              class="btn btn-primary collapsed"
+              class="btn btn-outline-primary mr-3 collapsed"
               data-toggle="collapse"
               :href="'#collapseExample'+index"
               aria-expanded="false"
@@ -74,41 +74,74 @@
           </template>
         </div>
       </div>
+      <h2 class="text-center mt-3">Основной документ</h2>
+
       <div class="row">
-        <div class="col-8 ">
-          <h2>Основной документ</h2>
-          <div class="text-right">
-            <span>Абзац: {{ paragraph }}</span>
-            <button class="btn" :disabled="paragraph < 1" @click="paragraph--">
-              <i class="fa fa-chevron-up" aria-hidden="true"></i>
-            </button>
-            <button
-              class="btn"
-              :disabled="paragraph >= documentHash.length -1"
-              @click="paragraph++"
-            >
-              <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </button>
+        <div class="col-8 mt-3">
+          <div class="d-flex justify-content-between">
+            <div>
+              <span
+                >Абзац: {{ paragraph + 1 }} из {{ documentHash.length }}</span
+              >
+              <button
+                class="btn"
+                :disabled="paragraph < 1"
+                @click="paragraph--"
+              >
+                <i class="fa fa-chevron-up" aria-hidden="true"></i>
+              </button>
+              <button
+                class="btn"
+                :disabled="paragraph >= documentHash.length -1"
+                @click="paragraph++"
+              >
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div>
+              <span>Изменения: {{ change }} из 2 </span>
+              <button
+                class="btn"
+                :disabled="paragraph < 1"
+                @click="paragraph--"
+              >
+                <i class="fa fa-chevron-up" aria-hidden="true"></i>
+              </button>
+              <button
+                class="btn"
+                :disabled="paragraph >= documentHash.length -1"
+                @click="paragraph++"
+              >
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
           <div class="bordered border-radius-10px p-3 shadow">
-            <template v-for="(block,index) in document">
-              <table>
+            <table class="table table-sm table-borderless table-striped">
+              <thead>
                 <tr>
-                  <td>
-                    <b>{{ index }}</b>
-                  </td>
-                  <td>
-                    <div
-                      :title="documentColor[index] === 'lightcoral' ? 'Рекомендуем выбрать изменения' : ''"
-                      :style="{background:documentColor[index]}"
-                      @mouseover="paragraph=block.index"
-                    >
-                      {{ block.origin }}
-                    </div>
-                  </td>
+                  <th>№</th>
+                  <th>Абзац</th>
                 </tr>
-              </table>
-            </template>
+              </thead>
+              <tbody>
+                <template v-for="(block,index) in document">
+                  <tr @mouseover="paragraph=block.index">
+                    <td>
+                      <b>{{ index + 1 }}</b>
+                    </td>
+                    <td>
+                      <div
+                        :title="documentColor[index] === 'lightcoral' ? 'Рекомендуем выбрать изменения' : ''"
+                        :style="{background:documentColor[index]}"
+                      >
+                        {{ block.origin }}
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="col-4">
