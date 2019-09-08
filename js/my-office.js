@@ -2,13 +2,19 @@ Vue.component("block-change", {
   props: ["paragraph", "text", "color"],
   template: `<div class="card shadow-sm mb-3">
               <div class="card-body text-center" :style="color==='lightcoral'? 'background-color: rgba(255, 0, 0, 0.07);': ''">
-                <!-- <div><button class="btn btn-sm btn-block">...</button></div> -->
-                <textarea class="w-100" :style="{background:color}" v-model="text"></textarea>
-                <!-- <div><button class="btn btn-sm btn-block">...</button></div> -->
-                <a class="btn btn-sm btn-outline-success" title="Согласен" @click="$emit('done-changes', paragraph, text)"><i class="fa fa-check" aria-hidden="true"></i></a>
-                <a class="btn btn-sm btn-outline-danger" title="Не согласен" @click="$emit('cancel-changes', paragraph)"><i class="fa fa-times" aria-hidden="true"></i></a>
-                <!--<a class="btn btn-sm btn-outline-primary" title="Внести правку" @click="$emit('edit-changes', paragraph, text)"><i class="fa fa-pencil" aria-hidden="true"></i></a>-->
-                <a class="btn btn-sm btn btn-outline-warning" title="Оставить оригинал" @click="$emit('original-changes', paragraph)"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
+                <div class="d-flex">
+                  <div class="d-flex flex-column">
+                      <a class="btn btn-sm btn-outline-success" title="Согласен" @click="$emit('done-changes', paragraph, text)"><i class="fa fa-check" aria-hidden="true"></i></a>
+                      <a class="btn my-2 btn-sm btn-outline-danger" title="Не согласен" @click="$emit('cancel-changes', paragraph)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                      <!--<a class="btn btn-sm btn-outline-primary" title="Внести правку" @click="$emit('edit-changes', paragraph, text)"><i class="fa fa-pencil" aria-hidden="true"></i></a>-->
+                      <a class="btn  btn-sm btn btn-outline-warning" title="Оставить оригинал" @click="$emit('original-changes', paragraph)"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
+                  </div>
+                  <div class=" flex-grow-1 ml-3" :style="{background:color}">
+                      <!-- <div><button class="btn btn-sm btn-block">...</button></div> -->
+                      <textarea class="w-100" style="min-height: 100%"  :style="{background:color}" v-model="text"></textarea>
+                      <!-- <div><button class="btn btn-sm btn-block">...</button></div> -->
+                  </div>
+                </div>
               </div>
             </div>
               `
@@ -205,10 +211,13 @@ var app = new Vue({
       }
     },
     getRecomendation(paragraph) {
-      return find_the_most_similar_by_paragraph(
+      let result = find_the_most_similar_by_text(
         this.texts[0][paragraph],
-        this.texts[1][paragraph]
+        this.texts[1].join("\n")
       );
+
+      this.recomendation = result.text;
+      this.recomendationRaiting = result.raiting;
     }
   }
 });

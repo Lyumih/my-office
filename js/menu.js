@@ -1,5 +1,6 @@
 var menu = document.querySelector(".menu");
 function showMenu(x, y) {
+  app.getRecomendation(app.paragraph);
   app.menuParagraph = app.paragraph;
   console.log("2");
   menu.style.left = x + "px";
